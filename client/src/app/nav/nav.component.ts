@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
+import { environment } from 'src/environments/environment';
+import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 
 @Component({
   selector: 'app-nav',
@@ -16,13 +18,30 @@ export class NavComponent implements OnInit {
   constructor(public accountService: AccountService, private router: Router, 
     private toastr: ToastrService) { }
 
+  private googleClientId = environment.googleClientId;
+
   ngOnInit(): void {
     // @ts-ignore
-    google.accounts.id.renderButton(
+    window.onGoogleLibraryLoad = () => {
       // @ts-ignore
-      document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large", width: "100%" } 
-    );
+      google.accounts.id.initialize({
+        client_id: this.googleClientId,
+        callback: this.handleCredentialResponse.bind(this),
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+      // @ts-ignore
+      google.accounts.id.renderButton(
+        // @ts-ignore
+        document.getElementById("buttonDiv"),
+        { theme: "outline", size: "large", width: "100%" } 
+      );
+      // @ts-ignore
+      google.accounts.id.prompt((notification: PromptMomentNotification) => {});
+    };
+  }
+
+  async handleCredentialResponse(response: CredentialResponse) {
   }
 
   login() {
