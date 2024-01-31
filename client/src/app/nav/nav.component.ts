@@ -17,6 +17,12 @@ export class NavComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    // @ts-ignore
+    google.accounts.id.renderButton(
+      // @ts-ignore
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large", width: "100%" } 
+    );
   }
 
   login() {
