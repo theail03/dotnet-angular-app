@@ -33,7 +33,7 @@ export class NavComponent implements OnInit {
       // @ts-ignore
       google.accounts.id.renderButton(
         // @ts-ignore
-        document.getElementById("buttonDiv"),
+        document.getElementById("googleSignInButtonContainer"),
         { theme: "outline", size: "large", width: "100%" } 
       );
       // @ts-ignore
@@ -42,6 +42,12 @@ export class NavComponent implements OnInit {
   }
 
   async handleCredentialResponse(response: CredentialResponse) {
+    await this.accountService.loginWithGoogle(response.credential).subscribe({
+      next: _ => {
+        this.router.navigateByUrl('/members');
+        this.model = {};
+      }
+    })  
   }
 
   login() {

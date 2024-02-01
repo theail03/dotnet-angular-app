@@ -41,6 +41,6 @@
                 placeholder="Password">
             <button class="btn btn-success" type="submit">Login</button>
         </form>
-        <div class="ms-2" *ngIf="!(accountService.currentUser$ | async)" id="buttonDiv"></div>
+        <div class="ms-2" *ngIf="!(accountService.currentUser$ | async)" id="googleSignInButtonContainer"></div>
     </div>
 </nav>
