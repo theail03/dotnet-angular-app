@@ -53,7 +53,7 @@ namespace API.Controllers
         }
 
     [HttpPost("loginWithGoogle")]
-    public async Task<ActionResult<UserDto>> LoginWithGoogle(string credential)
+    public async Task<ActionResult<UserDto>> LoginWithGoogle(LoginWithGoogleDto loginWithGoogleDto)
     {
         var settings = new GoogleJsonWebSignature.ValidationSettings()
         {
@@ -63,7 +63,7 @@ namespace API.Controllers
         GoogleJsonWebSignature.Payload payload;
         try
         {
-            payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
+            payload = await GoogleJsonWebSignature.ValidateAsync(loginWithGoogleDto.Credential, settings);
         }
         catch (Exception)
         {
