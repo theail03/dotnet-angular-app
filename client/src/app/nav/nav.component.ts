@@ -21,6 +21,14 @@ export class NavComponent implements OnInit {
   private googleClientId = environment.googleClientId;
 
   ngOnInit(): void {
+    this.accountService.currentUser$.subscribe(user => {
+      if (!user) {
+        this.loadGoogleOneTapSignIn();
+      }
+    });
+  }
+  
+  private loadGoogleOneTapSignIn(): void {
     // @ts-ignore
     window.onGoogleLibraryLoad = () => {
       // @ts-ignore
@@ -34,7 +42,7 @@ export class NavComponent implements OnInit {
       google.accounts.id.renderButton(
         // @ts-ignore
         document.getElementById("googleSignInButtonContainer"),
-        { theme: "outline", size: "large", width: "100%" } 
+        { theme: "outline", size: "large", width: "100%" }
       );
       // @ts-ignore
       google.accounts.id.prompt((notification: PromptMomentNotification) => {});
