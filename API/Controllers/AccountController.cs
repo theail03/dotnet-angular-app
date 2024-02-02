@@ -84,6 +84,7 @@ namespace API.Controllers
             }
 
             // Set properties from payload whether it's a new user or an existing one
+            user.UserName = payload.Email;
             user.Email = payload.Email;
             user.KnownAs = payload.GivenName;
 
