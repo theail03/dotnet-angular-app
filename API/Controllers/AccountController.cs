@@ -52,60 +52,76 @@ namespace API.Controllers
             };
         }
 
-    [HttpPost("loginWithGoogle")]
-    public async Task<ActionResult<UserDto>> LoginWithGoogle(LoginWithGoogleDto loginWithGoogleDto)
-    {
-        var settings = new GoogleJsonWebSignature.ValidationSettings()
+        [HttpPost("loginWithGoogle")]
+        public async Task<ActionResult<UserDto>> LoginWithGoogle(LoginWithGoogleDto loginWithGoogleDto)
         {
-            Audience = new List<string> { _googleClientId }
-        };
-
-        GoogleJsonWebSignature.Payload payload;
-        try
-        {
-            payload = await GoogleJsonWebSignature.ValidateAsync(loginWithGoogleDto.Credential, settings);
-        }
-        catch (Exception)
-        {
-            return BadRequest("Invalid Google token.");
-        }
-
-        // Check if the user exists
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.GoogleId == payload.Subject);
-        if (user == null)
-        {
-            // User does not exist, create a new one
-            user = new AppUser
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
-                UserName = payload.Email,
-                Email = payload.Email,
-                GoogleId = payload.Subject
+                Audience = new List<string> { _googleClientId }
             };
 
-            var createResult = await _userManager.CreateAsync(user);
-            if (!createResult.Succeeded)
+            GoogleJsonWebSignature.Payload payload;
+            try
             {
-                return BadRequest(createResult.Errors);
+                payload = await GoogleJsonWebSignature.ValidateAsync(loginWithGoogleDto.Credential, settings);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Invalid Google token.");
             }
 
-            // Assign role to new users
-            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
-            if (!roleResult.Succeeded)
+            // Check if the user exists
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.GoogleId == payload.Subject);
+            var isNewUser = user == null;
+
+            if (isNewUser)
             {
-                return BadRequest(roleResult.Errors);
+                // User does not exist, create a new one
+                user = new AppUser
+                {
+                    GoogleId = payload.Subject,
+                };
             }
+
+            // Set properties from payload whether it's a new user or an existing one
+            user.Email = payload.Email;
+            user.KnownAs = payload.GivenName;
+
+            if (isNewUser)
+            {
+                var createResult = await _userManager.CreateAsync(user);
+                if (!createResult.Succeeded)
+                {
+                    return BadRequest(createResult.Errors);
+                }
+
+                // Assign role to new users
+                var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+                if (!roleResult.Succeeded)
+                {
+                    return BadRequest(roleResult.Errors);
+                }
+            }
+            else
+            {
+                // Existing user, update information
+                var updateResult = await _userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded)
+                {
+                    return BadRequest(updateResult.Errors);
+                }
+            }
+
+            // Generate token
+            return new UserDto
+            {
+                Username = user.UserName,
+                Token = await _tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                KnownAs = user.KnownAs,
+                Gender = user.Gender
+            };
         }
-
-        // Generate token
-        return new UserDto
-        {
-            Username = user.UserName,
-            Token = await _tokenService.CreateToken(user),
-            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-            KnownAs = user.KnownAs,
-            Gender = user.Gender
-        };
-    }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
