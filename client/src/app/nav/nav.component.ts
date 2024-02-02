@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
@@ -15,7 +15,7 @@ import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 export class NavComponent implements OnInit {
   model: any = {};
 
-  constructor(public accountService: AccountService, private router: Router, 
+  constructor(private _ngZone: NgZone, public accountService: AccountService, private router: Router, 
     private toastr: ToastrService) { }
 
   private googleClientId = environment.googleClientId;
@@ -49,14 +49,20 @@ export class NavComponent implements OnInit {
     };
   }
 
-  async handleCredentialResponse(response: CredentialResponse) {
-    await this.accountService.loginWithGoogle(response.credential).subscribe({
-      next: _ => {
-        this.router.navigateByUrl('/members');
-        this.model = {};
+  handleCredentialResponse(response: CredentialResponse) {
+    this.accountService.loginWithGoogle(response.credential).subscribe({
+      next: () => {
+        // NgZone ensures that Angular checks for changes after Google login
+        this._ngZone.run(() => {
+          this.router.navigateByUrl('/members');
+          this.model = {};
+        });
+      },
+      error: (error: any) => {
+        console.log(error);
       }
-    })  
-  }
+    });
+  }  
 
   login() {
     this.accountService.login(this.model).subscribe({
