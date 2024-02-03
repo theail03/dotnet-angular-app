@@ -21,16 +21,19 @@ export class NavComponent implements OnInit {
   private googleClientId = environment.googleClientId;
 
   ngOnInit(): void {
-    this.accountService.currentUser$.subscribe(user => {
-      if (!user) {
-        this.loadGoogleOneTapSignIn();
-      }
-    });
+    // @ts-ignore
+    window.onGoogleLibraryLoad = () => {
+      this.accountService.currentUser$.subscribe(user => {
+        if (!user) {
+          this.loadGoogleOneTapSignIn();
+        }
+      });
+    }
   }
   
   private loadGoogleOneTapSignIn(): void {
     // @ts-ignore
-    window.onGoogleLibraryLoad = () => {
+    if (window.google && window.google.accounts) {
       // @ts-ignore
       google.accounts.id.initialize({
         client_id: this.googleClientId,
