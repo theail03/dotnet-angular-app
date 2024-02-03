@@ -2,6 +2,7 @@ import { Photo } from "./photo";
 
 export interface Member {
     id: number;
+    googleId: string;
     userName: string;
     photoUrl: string;
     age: number;
