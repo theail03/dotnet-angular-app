@@ -27,6 +27,7 @@ const routes: Routes = [
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent},
       {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
+      {path: 'dictionary/create', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
     ]
   },
   {path: 'errors', component: TestErrorComponent},
