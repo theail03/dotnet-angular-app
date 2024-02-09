@@ -2,10 +2,10 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
-import { Member } from 'src/app/_models/member';
+import { Dataset } from 'src/app/_models/dataset';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
-import { MembersService } from 'src/app/_services/members.service';
+import { DatasetService } from 'src/app/_services/dataset.service';
 
 @Component({
   selector: 'app-dataset',
@@ -19,10 +19,10 @@ export class DatasetComponent implements OnInit {
       $event.returnValue = true;
     }
   }
-  member: Member | undefined;
+  dataset: Dataset | undefined;
   user: User | null = null;
 
-  constructor(private accountService: AccountService, private memberService: MembersService, 
+  constructor(private accountService: AccountService, private datasetService: DatasetService, 
       private toastr: ToastrService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => this.user = user
@@ -30,21 +30,36 @@ export class DatasetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadMember();
+    this.loadDataset();
+    this.dataset = {
+      id: 0,
+      title: '',
+      description: '',
+      csvContent: ''
+    }
   }
 
-  loadMember() {
-    if (!this.user) return;
-    this.memberService.getMember(this.user.username).subscribe({
-      next: member => this.member = member
+  loadDataset() {
+    if (!this.dataset) return;
+    this.datasetService.getDataset(this.dataset.id).subscribe({
+      next: dataset => this.dataset = dataset
     })
   }
 
-  updateMember() {
-    this.memberService.updateMember(this.editForm?.value).subscribe({
+  createDataset() {
+    this.datasetService.createDataset(this.editForm?.value).subscribe({
       next: _ => {
-        this.toastr.success('Profile updated successfully');
-        this.editForm?.reset(this.member);
+        this.toastr.success('Dataset created successfully');
+        this.editForm?.reset(this.dataset);
+      }
+    })
+  }
+
+  updateDataset() {
+    this.datasetService.updateDataset(this.editForm?.value).subscribe({
+      next: _ => {
+        this.toastr.success('Dataset updated successfully');
+        this.editForm?.reset(this.dataset);
       }
     })
   }

@@ -1,6 +1,6 @@
-<div class="row" *ngIf="member">
+<div class="row" *ngIf="dataset">
     <div class="col-4">
-        <h1>Add Dataset</h1>
+        <h1>Create Dataset</h1>
     </div>
     <div class="col-8">
         <div class="alert alert-info pb-0" *ngIf="editForm.dirty">
@@ -11,23 +11,23 @@
     <div class="col-12">
         <tabset class="member-tabset">
             <tab heading="Details">
-                <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMember()">
+                <form #editForm="ngForm" id="editForm" (ngSubmit)="createDataset()">
                     <h4 class="mt-2">Title</h4>
                     <input class="form-control" 
-                        [(ngModel)]="member.introduction" 
+                        [(ngModel)]="dataset.title" 
                         name="title"
                         rows="1"
                     >
                     <h4 class="mt-2">Description</h4>
                     <textarea class="form-control" 
-                        [(ngModel)]="member.city" 
-                        name="introduction"
+                        [(ngModel)]="dataset.description" 
+                        name="description"
                         rows="3"
                     ></textarea>
                     <h4 class="mt-2">CSV Content</h4>
                     <textarea class="form-control" 
-                        [(ngModel)]="member.googleId" 
-                        name="googleId"
+                        [(ngModel)]="dataset.csvContent" 
+                        name="csvContent"
                         rows="10"
                     ></textarea>
                 </form>
