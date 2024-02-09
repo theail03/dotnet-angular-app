@@ -14,7 +14,7 @@ import { AdminGuard } from './_guards/admin.guard';
 import { AuthGuard } from './_guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { MemberDetailedResolver } from './_resolvers/member-detailed.resolver';
-import { DictionaryComponent } from './dictionary/dictionary.component';
+import { DatasetComponent } from './dataset/dataset.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -28,7 +28,7 @@ const routes: Routes = [
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent},
       {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
-      {path: 'dictionary/create', component: DictionaryComponent, canDeactivate: [PreventUnsavedChangesGuard]},
+      {path: 'dataset/create', component: DatasetComponent, canDeactivate: [PreventUnsavedChangesGuard]},
     ]
   },
   {path: 'errors', component: TestErrorComponent},

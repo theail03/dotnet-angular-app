@@ -8,11 +8,11 @@ import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
 
 @Component({
-  selector: 'app-dictionary',
-  templateUrl: './dictionary.component.html',
-  styleUrls: ['./dictionary.component.css']
+  selector: 'app-dataset',
+  templateUrl: './dataset.component.html',
+  styleUrls: ['./dataset.component.css']
 })
-export class DictionaryComponent implements OnInit {
+export class DatasetComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm | undefined;
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event:any) {
     if (this.editForm?.dirty) {

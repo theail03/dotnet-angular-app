@@ -32,7 +32,7 @@ import { UserManagementComponent } from './admin/user-management/user-management
 import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
-import { DictionaryComponent } from './dictionary/dictionary.component';
+import { DatasetComponent } from './dataset/dataset.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +59,7 @@ import { DictionaryComponent } from './dictionary/dictionary.component';
     PhotoManagementComponent,
     RolesModalComponent,
     ConfirmDialogComponent,
-    DictionaryComponent
+    DatasetComponent
   ],
   imports: [
     BrowserAnimationsModule,
