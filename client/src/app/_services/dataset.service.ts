@@ -41,7 +41,7 @@ export class DatasetService {
 
     params = params.append('orderBy', datasetParams.orderBy);
 
-    return getPaginatedResult<Dataset[]>(this.baseUrl + 'datasets', params, this.http).pipe(
+    return getPaginatedResult<Dataset[]>(this.baseUrl + 'dataset', params, this.http).pipe(
       map(response => {
         this.datasetCache.set(Object.values(datasetParams).join('-'), response);
         return response;
@@ -56,11 +56,11 @@ export class DatasetService {
 
     if (dataset) return of(dataset);
 
-    return this.http.get<Dataset>(this.baseUrl + 'datasets/' + id);
+    return this.http.get<Dataset>(this.baseUrl + 'dataset/' + id);
   }
 
   createDataset(dataset: Dataset) {
-    return this.http.post<Dataset>(this.baseUrl + 'datasets', dataset).pipe(
+    return this.http.post<Dataset>(this.baseUrl + 'dataset', dataset).pipe(
       map((newDataset) => {
         this.datasets = [...this.datasets, newDataset];
         return newDataset;
@@ -69,7 +69,7 @@ export class DatasetService {
   }
 
   updateDataset(dataset: Dataset) {
-    return this.http.put(this.baseUrl + 'datasets', dataset).pipe(
+    return this.http.put(this.baseUrl + 'dataset', dataset).pipe(
       map(() => {
         const index = this.datasets.indexOf(dataset);
         this.datasets[index] = { ...this.datasets[index], ...dataset }
