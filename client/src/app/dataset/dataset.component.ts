@@ -27,7 +27,8 @@ export class DatasetComponent implements OnInit {
       id: 0,
       title: '',
       description: '',
-      csvContent: ''
+      csvContent: '',
+      isPublic: false
     }
   }
 

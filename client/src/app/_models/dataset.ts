@@ -3,4 +3,5 @@ export interface Dataset {
     title: string;
     description: string;
     csvContent: string;
+    isPublic: boolean;
 }
