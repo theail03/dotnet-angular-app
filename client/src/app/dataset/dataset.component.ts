@@ -1,10 +1,7 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { take } from 'rxjs';
 import { Dataset } from 'src/app/_models/dataset';
-import { User } from 'src/app/_models/user';
-import { AccountService } from 'src/app/_services/account.service';
 import { DatasetService } from 'src/app/_services/dataset.service';
 
 @Component({
@@ -20,13 +17,8 @@ export class DatasetComponent implements OnInit {
     }
   }
   dataset: Dataset | undefined;
-  user: User | null = null;
 
-  constructor(private accountService: AccountService, private datasetService: DatasetService, 
-      private toastr: ToastrService) { 
-    this.accountService.currentUser$.pipe(take(1)).subscribe({
-      next: user => this.user = user
-    })
+  constructor(private datasetService: DatasetService, private toastr: ToastrService) { 
   }
 
   ngOnInit(): void {
