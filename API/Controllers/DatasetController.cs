@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class DatasetsController : BaseApiController
+    public class DatasetController : BaseApiController
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _uow;
-        public DatasetsController(IMapper mapper, IUnitOfWork uow)
+        public DatasetController(IMapper mapper, IUnitOfWork uow)
         {
             _uow = uow;
             _mapper = mapper;
