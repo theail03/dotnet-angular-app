@@ -44,10 +44,10 @@ namespace API.Data
                 .OrderByDescending(dataset => dataset.Title)
                 .AsQueryable();
 
-            var messages = query.ProjectTo<DatasetDto>(_mapper.ConfigurationProvider);
+            var datasets = query.ProjectTo<DatasetDto>(_mapper.ConfigurationProvider);
 
             return await PagedList<DatasetDto>
-                .CreateAsync(messages, datasetParams.PageNumber, datasetParams.PageSize);
+                .CreateAsync(datasets, datasetParams.PageNumber, datasetParams.PageSize);
         }
     }
 }

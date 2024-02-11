@@ -22,6 +22,7 @@ namespace API.Helpers
                 .ForMember(d => d.RecipientPhotoUrl, o => o.MapFrom(s => s.Recipient.Photos
                     .FirstOrDefault(x => x.IsMain).Url));
             CreateMap<Dataset, DatasetDto>();
+            CreateMap<DatasetDto, Dataset>();
             CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
             CreateMap<DateTime?, DateTime?>().ConvertUsing(d => d.HasValue ? 
                 DateTime.SpecifyKind(d.Value, DateTimeKind.Utc) : null);
