@@ -28,13 +28,16 @@ export class ErrorInterceptor implements HttpInterceptor {
                     modelStateErrors.push(error.error.errors[key])
                   }
                 }
-                throw modelStateErrors.flat();
+                const errorMessagesArray = modelStateErrors.flat();
+                const errorMessage = errorMessagesArray.join('<br>');
+                this.toastr.error(errorMessage, 'Validation Error', { timeOut: 5000, enableHtml: true });
+                throw errorMessagesArray;
               } else {
-                this.toastr.error(error.error, error.status.toString())
+                this.toastr.error(error.error, error.status.toString());
               }
               break;
             case 401:
-              this.toastr.error('Unauthorised', error.status.toString());
+              this.toastr.error('Unauthorized', error.status.toString());
               break;
             case 404:
               this.router.navigateByUrl('/not-found');
