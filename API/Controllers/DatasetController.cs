@@ -23,6 +23,8 @@ namespace API.Controllers
         {
             var dataset = _mapper.Map<Dataset>(datasetDto);
 
+            dataset.AppUserId = User.GetUserId();
+
             _uow.DatasetRepository.AddDataset(dataset);
 
             if (await _uow.Complete()) return Ok(_mapper.Map<DatasetDto>(dataset));
