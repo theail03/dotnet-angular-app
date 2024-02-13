@@ -16,24 +16,22 @@ export class DatasetComponent implements OnInit {
       $event.returnValue = true;
     }
   }
-  dataset: Dataset | undefined;
+  dataset: Dataset = {
+    title: '',
+    description: '',
+    csvContent: '',
+    isPublic: false
+  };
 
   constructor(private datasetService: DatasetService, private toastr: ToastrService) { 
   }
 
   ngOnInit(): void {
     this.loadDataset();
-    this.dataset = {
-      id: 0,
-      title: '',
-      description: '',
-      csvContent: '',
-      isPublic: false
-    }
   }
 
   loadDataset() {
-    if (!this.dataset) return;
+    if (!this.dataset || this.dataset.id === undefined) return;
     this.datasetService.getDataset(this.dataset.id).subscribe({
       next: dataset => this.dataset = dataset
     })
