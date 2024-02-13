@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Dataset } from 'src/app/_models/dataset';
 import { DatasetService } from 'src/app/_services/dataset.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dataset',
@@ -23,18 +24,13 @@ export class DatasetComponent implements OnInit {
     isPublic: false
   };
 
-  constructor(private datasetService: DatasetService, private toastr: ToastrService) { 
+  constructor(private route: ActivatedRoute, private datasetService: DatasetService, private toastr: ToastrService) { 
   }
 
   ngOnInit(): void {
-    this.loadDataset();
-  }
-
-  loadDataset() {
-    if (!this.dataset || this.dataset.id === undefined) return;
-    this.datasetService.getDataset(this.dataset.id).subscribe({
-      next: dataset => this.dataset = dataset
-    })
+    this.route.data.subscribe(data => {
+      this.dataset = data['dataset'];
+    }); 
   }
 
   createDataset() {

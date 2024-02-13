@@ -46,6 +46,20 @@ namespace API.Controllers
             return BadRequest("Failed to update dataset");
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DatasetDto>> GetDataset(int id)
+        {
+            var dataset = await _uow.DatasetRepository.GetDataset(id);
+            if (dataset == null)
+            {
+                return NotFound(); 
+            }
+
+            var datasetDto = _mapper.Map<DatasetDto>(dataset);
+            
+            return Ok(datasetDto); 
+        }
+
         [HttpGet]
         public async Task<ActionResult<PagedList<DatasetDto>>> GetDatasetsForUser([FromQuery]
             DatasetParams datasetParams)
