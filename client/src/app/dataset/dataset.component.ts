@@ -37,8 +37,8 @@ export class DatasetComponent implements OnInit {
   }
 
   saveDataset() {
-    const operation = this.dataset.id ? this.datasetService.updateDataset(this.editForm?.value) 
-                                      : this.datasetService.createDataset(this.editForm?.value);
+    const operation = this.dataset.id ? this.datasetService.updateDataset(this.dataset)
+                                      : this.datasetService.createDataset(this.dataset);
 
     operation.subscribe({
       next: () => {
