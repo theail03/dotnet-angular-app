@@ -73,6 +73,7 @@ export class DatasetService {
       map(() => {
         const index = this.datasets.indexOf(dataset);
         this.datasets[index] = { ...this.datasets[index], ...dataset }
+        return this.datasets[index];
       })
     )
   }

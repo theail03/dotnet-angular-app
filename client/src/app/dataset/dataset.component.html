@@ -11,7 +11,7 @@
     <div class="col-12">
         <tabset class="member-tabset">
             <tab heading="Details">
-                <form #editForm="ngForm" id="editForm" (ngSubmit)="createDataset()">
+                <form #editForm="ngForm" id="editForm" (ngSubmit)="saveDataset()">
                     <h4 class="mt-2">Title</h4>
                     <input class="form-control" 
                         [(ngModel)]="dataset.title" 

@@ -36,21 +36,20 @@ export class DatasetComponent implements OnInit {
     }
   }
 
-  createDataset() {
-    this.datasetService.createDataset(this.editForm?.value).subscribe({
-      next: _ => {
-        this.toastr.success('Dataset created successfully');
-        this.editForm?.reset(this.dataset);
-      }
-    })
-  }
+  saveDataset() {
+    const operation = this.dataset.id ? this.datasetService.updateDataset(this.editForm?.value) 
+                                      : this.datasetService.createDataset(this.editForm?.value);
 
-  updateDataset() {
-    this.datasetService.updateDataset(this.editForm?.value).subscribe({
-      next: _ => {
-        this.toastr.success('Dataset updated successfully');
-        this.editForm?.reset(this.dataset);
+    operation.subscribe({
+      next: () => {
+        const successMessage = this.dataset.id ? 'Dataset updated successfully' : 'Dataset created successfully';
+        this.toastr.success(successMessage);
+        this.editForm?.reset(this.dataset); 
+      },
+      error: () => {
+        const errorMessage = this.dataset.id ? 'Failed to update dataset' : 'Failed to create dataset';
+        this.toastr.error(errorMessage);
       }
-    })
+    });
   }
 }
