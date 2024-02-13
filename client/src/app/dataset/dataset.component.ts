@@ -28,9 +28,12 @@ export class DatasetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.data.subscribe(data => {
-      this.dataset = data['dataset'];
-    }); 
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.route.data.subscribe(data => {
+        this.dataset = data['dataset'];
+      }); 
+    }
   }
 
   createDataset() {
