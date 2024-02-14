@@ -12,8 +12,8 @@ export class ConfirmService {
   constructor(private modalService: BsModalService) { }
 
   confirm(
-    title = 'Confirmation',
-    message = 'Are you sure you want to do this?',
+    title = 'Unsaved Changes',
+    message = 'You have unsaved changes. If you leave, all changes will be lost. Do you want to continue?',
     btnOkText = 'Ok',
     btnCancelText = 'Cancel'
   ): Observable<boolean> {
