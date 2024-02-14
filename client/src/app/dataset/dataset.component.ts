@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Dataset } from 'src/app/_models/dataset';
 import { DatasetService } from 'src/app/_services/dataset.service';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dataset',
@@ -25,7 +26,7 @@ export class DatasetComponent implements OnInit {
     isPublic: false
   };
 
-  constructor(private route: ActivatedRoute, private datasetService: DatasetService, private toastr: ToastrService) { 
+  constructor(private route: ActivatedRoute, private datasetService: DatasetService, private toastr: ToastrService, private router: Router) { 
   }
 
   ngOnInit(): void {
@@ -43,10 +44,11 @@ export class DatasetComponent implements OnInit {
                                       : this.datasetService.createDataset(this.dataset);
 
     operation.subscribe({
-      next: () => {
+      next: (dataset) => {
         const successMessage = this.dataset.id ? 'Dataset updated successfully' : 'Dataset created successfully';
         this.toastr.success(successMessage);
         this.editForm?.reset(this.dataset); 
+        this.router.navigate(['/dataset', dataset.id]);
       },
       error: () => {
         const errorMessage = this.dataset.id ? 'Failed to update dataset' : 'Failed to create dataset';
