@@ -17,6 +17,7 @@ export class DatasetComponent implements OnInit {
       $event.returnValue = true;
     }
   }
+  title: string = 'Create Dataset';
   dataset: Dataset = {
     title: '',
     description: '',
@@ -30,6 +31,7 @@ export class DatasetComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.title = 'Edit Dataset';
       this.route.data.subscribe(data => {
         this.dataset = data['dataset'];
       }); 
