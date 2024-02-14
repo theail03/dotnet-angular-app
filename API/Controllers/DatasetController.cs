@@ -38,6 +38,7 @@ namespace API.Controllers
             var dataset = await _uow.DatasetRepository.GetDataset(datasetDto.Id);
 
             if (dataset == null) return NotFound();
+            if (dataset.AppUserId != User.GetUserId()) return Forbid();
 
             _mapper.Map(datasetDto, dataset);
 
@@ -50,10 +51,9 @@ namespace API.Controllers
         public async Task<ActionResult<DatasetDto>> GetDataset(int id)
         {
             var dataset = await _uow.DatasetRepository.GetDataset(id);
-            if (dataset == null)
-            {
-                return NotFound(); 
-            }
+            
+            if (dataset == null) return NotFound(); 
+            if (dataset.AppUserId != User.GetUserId()) return Forbid();
 
             var datasetDto = _mapper.Map<DatasetDto>(dataset);
             
@@ -76,6 +76,9 @@ namespace API.Controllers
         public async Task<ActionResult> DeleteDataset(int id)
         {
             var dataset = await _uow.DatasetRepository.GetDataset(id);
+
+            if (dataset == null) return NotFound();
+            if (dataset.AppUserId != User.GetUserId()) return Forbid();
 
             _uow.DatasetRepository.DeleteDataset(dataset);
 
