@@ -38,6 +38,7 @@ export class DatasetService {
     if (response) return of(response);
 
     let params = getPaginationHeaders(datasetParams.pageNumber, datasetParams.pageSize);
+    params = params.append('predicate', datasetParams.predicate);
 
     return getPaginatedResult<Dataset[]>(this.baseUrl + 'dataset', params, this.http).pipe(
       map(response => {

@@ -38,11 +38,20 @@ namespace API.Data
             return await _context.Datasets.FindAsync(id);
         }
 
-        public async Task<PagedList<DatasetDto>> GetDatasetsForUser(DatasetParams datasetParams)
+        public async Task<PagedList<DatasetDto>> GetDatasets(DatasetParams datasetParams)
         {
             var query = _context.Datasets
                 .OrderByDescending(dataset => dataset.Id)
                 .AsQueryable();
+
+            if (datasetParams.Predicate == "public")
+            {
+                query = query.Where(dataset => dataset.IsPublic);
+            }
+            else
+            {
+                query = query.Where(dataset => dataset.AppUserId == datasetParams.UserId);
+            }
 
             var datasets = query.ProjectTo<DatasetDto>(_mapper.ConfigurationProvider);
 

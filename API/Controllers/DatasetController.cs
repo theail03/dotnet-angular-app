@@ -61,10 +61,12 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedList<DatasetDto>>> GetDatasetsForUser([FromQuery]
+        public async Task<ActionResult<PagedList<DatasetDto>>> GetDatasets([FromQuery]
             DatasetParams datasetParams)
         {
-            var datasets = await _uow.DatasetRepository.GetDatasetsForUser(datasetParams);
+            datasetParams.UserId = User.GetUserId();
+
+            var datasets = await _uow.DatasetRepository.GetDatasets(datasetParams);
 
             Response.AddPaginationHeader(new PaginationHeader(datasets.CurrentPage, datasets.PageSize, 
                 datasets.TotalCount, datasets.TotalPages));

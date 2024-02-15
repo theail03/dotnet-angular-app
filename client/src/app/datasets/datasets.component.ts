@@ -24,6 +24,7 @@ export class DatasetsComponent implements OnInit {
 
   loadDatasets() {
     const params = new DatasetParams();
+    params.predicate = this.predicate;
     params.pageNumber = this.pageNumber;
     params.pageSize = this.pageSize;
     

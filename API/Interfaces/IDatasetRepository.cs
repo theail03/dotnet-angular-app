@@ -10,6 +10,6 @@ namespace API.Interfaces
         void AddDataset(Dataset dataset);
         void DeleteDataset(Dataset dataset);
         Task<Dataset> GetDataset(int id);
-        Task<PagedList<DatasetDto>> GetDatasetsForUser(DatasetParams datasetParams);
+        Task<PagedList<DatasetDto>> GetDatasets(DatasetParams datasetParams);
     }
 }
