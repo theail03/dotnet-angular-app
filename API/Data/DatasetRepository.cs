@@ -41,7 +41,7 @@ namespace API.Data
         public async Task<PagedList<DatasetDto>> GetDatasetsForUser(DatasetParams datasetParams)
         {
             var query = _context.Datasets
-                .OrderByDescending(dataset => dataset.Title)
+                .OrderByDescending(dataset => dataset.Id)
                 .AsQueryable();
 
             var datasets = query.ProjectTo<DatasetDto>(_mapper.ConfigurationProvider);

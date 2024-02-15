@@ -39,8 +39,6 @@ export class DatasetService {
 
     let params = getPaginationHeaders(datasetParams.pageNumber, datasetParams.pageSize);
 
-    params = params.append('orderBy', datasetParams.orderBy);
-
     return getPaginatedResult<Dataset[]>(this.baseUrl + 'dataset', params, this.http).pipe(
       map(response => {
         this.datasetCache.set(Object.values(datasetParams).join('-'), response);
