@@ -33,6 +33,8 @@ import { PhotoManagementComponent } from './admin/photo-management/photo-managem
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
 import { DatasetComponent } from './dataset/dataset.component';
+import { DatasetsComponent } from './datasets/datasets.component';
+import { DatasetCardComponent } from './dataset-card/dataset-card.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { DatasetComponent } from './dataset/dataset.component';
     PhotoManagementComponent,
     RolesModalComponent,
     ConfirmDialogComponent,
-    DatasetComponent
+    DatasetComponent,
+    DatasetsComponent,
+    DatasetCardComponent
   ],
   imports: [
     BrowserAnimationsModule,

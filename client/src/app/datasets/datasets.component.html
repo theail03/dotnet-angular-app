@@ -1,0 +1,39 @@
+<div class="text-center mt-3">
+    <h2>{{predicate === 'public' ? 'Public datasets' : 'My datasets'}}</h2>
+</div>
+
+<div class="container mt-3">
+    <div class="d-flex">
+        <div class="btn-group" name="predicate">
+            <button class="btn btn-primary" 
+                btnRadio="public" 
+                [(ngModel)]="predicate" 
+                (click)="loadDatasets()">Public datasets</button>
+            <button class="btn btn-primary" 
+                btnRadio="private" 
+                [(ngModel)]="predicate" 
+                (click)="loadDatasets()">My datasets</button>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-2" *ngFor="let dataset of datasets">
+            <app-dataset-card [dataset]="dataset"></app-dataset-card>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+    <pagination 
+        [boundaryLinks]="true" 
+        [totalItems]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [maxSize]="10"
+        [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)"
+        previousText="&lsaquo;" 
+        nextText="&rsaquo;" 
+        firstText="&laquo;" 
+        lastText="&raquo;">
+    </pagination>
+</div>

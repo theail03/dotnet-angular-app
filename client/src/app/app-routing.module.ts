@@ -16,6 +16,7 @@ import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.gu
 import { MemberDetailedResolver } from './_resolvers/member-detailed.resolver';
 import { DatasetComponent } from './dataset/dataset.component';
 import { DatasetResolver } from './_resolvers/dataset.resolver';
+import { DatasetsComponent } from './datasets/datasets.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -29,6 +30,7 @@ const routes: Routes = [
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent},
       {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
+      {path: 'datasets', component: DatasetsComponent},
       {path: 'dataset/create', component: DatasetComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'dataset/:id', component: DatasetComponent, resolve: {dataset: DatasetResolver}, canDeactivate: [PreventUnsavedChangesGuard]},
     ]
