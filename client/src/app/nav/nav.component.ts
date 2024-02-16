@@ -1,11 +1,10 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, of } from 'rxjs';
-import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { environment } from 'src/environments/environment';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
+import { DatasetService } from '../_services/dataset.service';
 
 @Component({
   selector: 'app-nav',
@@ -15,7 +14,7 @@ import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 export class NavComponent implements OnInit {
   model: any = {};
 
-  constructor(private _ngZone: NgZone, public accountService: AccountService, private router: Router, 
+  constructor(private _ngZone: NgZone, public accountService: AccountService, public datasetService: DatasetService, private router: Router, 
     private toastr: ToastrService) { }
 
   private googleClientId = environment.googleClientId;
@@ -52,13 +51,17 @@ export class NavComponent implements OnInit {
     };
   }
 
+  handleLoginSuccess(): void {
+    this.router.navigateByUrl('/datasets');
+    this.model = {};
+  }
+
   handleCredentialResponse(response: CredentialResponse) {
     this.accountService.loginWithGoogle(response.credential).subscribe({
       next: () => {
         // NgZone ensures that Angular checks for changes after Google login
         this._ngZone.run(() => {
-          this.router.navigateByUrl('/members');
-          this.model = {};
+          this.handleLoginSuccess();
         });
       },
       error: (error: any) => {
@@ -70,13 +73,13 @@ export class NavComponent implements OnInit {
   login() {
     this.accountService.login(this.model).subscribe({
       next: _ => {
-        this.router.navigateByUrl('/members');
-        this.model = {};
+        this.handleLoginSuccess();
       }
     })
   }
 
   logout() {
+    this.datasetService.datasetCache = new Map();
     this.accountService.logout();
     this.router.navigateByUrl('/');
   }
