@@ -1,17 +1,17 @@
-.card:hover img {
+.thumbnail:hover {
     transform: scale(1.2, 1.2);
     transition-duration: 500ms;
     transition-timing-function: ease-out;
     opacity: 0.7;
 }
 
-.card img {
+.thumbnail {
     transform: scale(1.0, 1.0);
     transition-duration: 500ms;
     transition-timing-function: ease-out;
 }
 
-.card-img-wrapper {
+.card-thumbnail-wrapper {
     overflow: hidden;
     position: relative;
 }
@@ -26,7 +26,7 @@
     opacity: 0;
 }
 
-.card-img-wrapper:hover .dataset-icons {
+.card-thumbnail-wrapper:hover .dataset-icons {
     bottom: 0;
     opacity: 1;
 }
