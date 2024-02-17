@@ -21,10 +21,27 @@ export class DatasetCardComponent implements OnInit {
   }
 
   getSvgImage(): any {
-    const svgData = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
-      <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-      <!-- Add more SVG elements here as needed -->
-    </svg>`;
+    if (!this.dataset?.csvContent) {
+      return ''; // Or some default SVG/data URL
+    }
+
+    // Parse the CSV content into an array of objects
+    const data = d3.csvParse(this.dataset.csvContent);
+
+    // Start an SVG element
+    let svgStart = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="${data.length * 20}">`;
+    let svgContent = '';
+
+    // Loop over each row of data and add a text element for each
+    data.forEach((row, index) => {
+      svgContent += `<text x="10" y="${20 + index * 20}" font-family="Verdana" font-size="15" fill="black">${JSON.stringify(row)}</text>`;
+    });
+
+    // Close the SVG tag
+    let svgEnd = `</svg>`;
+
+    // Combine the parts into a full SVG string
+    const svgData = `${svgStart}${svgContent}${svgEnd}`;
 
     // Convert SVG string to data URL
     const dataUrl = 'data:image/svg+xml;base64,' + window.btoa(svgData);
