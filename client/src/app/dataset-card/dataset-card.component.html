@@ -1,6 +1,6 @@
 <div class="card mb-4" *ngIf="dataset">
     <div class="card-thumbnail-wrapper">
-        <img [src]="getSvgImage()" alt="{{dataset.title}}" class="thumbnail card-img-top">
+        <img [src]="svgImageUrl" alt="{{dataset.title}}" class="thumbnail card-img-top">
         <ul class="list-inline dataset-icons animate text-center">
             <li class="list-inline-item">
                 <button routerLink="/dataset/{{dataset.id}}" class="btn btn-primary"><i class="fa fa-user"></i></button>

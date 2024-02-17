@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DatasetService } from '../_services/dataset.service';
 import { Dataset } from '../_models/dataset';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-dataset-card',
@@ -11,10 +12,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class DatasetCardComponent implements OnInit {
   @Input() dataset: Dataset | undefined;
+  svgImageUrl: any;
 
   constructor(private datasetService: DatasetService, private toastr: ToastrService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
+    this.svgImageUrl = this.getSvgImage();
   }
 
   getSvgImage(): any {
