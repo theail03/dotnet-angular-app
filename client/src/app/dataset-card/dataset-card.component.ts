@@ -12,6 +12,7 @@ import * as d3 from 'd3';
 })
 export class DatasetCardComponent implements OnInit {
   @Input() dataset: Dataset | undefined;
+  @Input() predicate: string | undefined;
   svgImageUrl: any;
 
   constructor(private datasetService: DatasetService, private toastr: ToastrService, private sanitizer: DomSanitizer) { }
