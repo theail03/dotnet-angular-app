@@ -27,6 +27,7 @@
                     <h4 class="mt-2">CSV Content</h4>
                     <textarea class="form-control" 
                         [(ngModel)]="dataset.csvContent" 
+                        (ngModelChange)="parseCsvContent()"
                         name="csvContent"
                         rows="10"
                     ></textarea>
