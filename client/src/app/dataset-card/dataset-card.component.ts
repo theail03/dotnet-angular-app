@@ -22,11 +22,11 @@ export class DatasetCardComponent implements OnInit {
 
   getSvgImage(): any {
     if (!this.dataset?.csvContent) {
-      return ''; // Or some default SVG/data URL
+      return '';
     }
 
-    // Parse the CSV content into an array of objects
-    const data = d3.csvParse(this.dataset.csvContent);
+    // Split the CSV content by new line
+    const lines = this.dataset.csvContent.split('\n');
 
     // Start an SVG element
     let svgStart = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">`;
@@ -34,13 +34,13 @@ export class DatasetCardComponent implements OnInit {
 
     const baseX = 5; 
     const baseY = 10; 
-    const lineHeight = 10; 
+    const lineHeight = 6; 
     const fontSize = 5; 
 
-    // Loop over each row of data and add a text element for each
-    data.forEach((row, index) => {
+    // Loop over each line of the CSV and add a text element for each
+    lines.forEach((line, index) => {
       const yPosition = baseY + index * lineHeight;
-      svgContent += `<text x="${baseX}" y="${yPosition}" font-family="Verdana" font-size="${fontSize}" fill="black">${JSON.stringify(row)}</text>`;
+      svgContent += `<text x="${baseX}" y="${yPosition}" font-family="Verdana" font-size="${fontSize}" fill="black">${line}</text>`;
     });
 
     // Close the SVG tag
