@@ -29,12 +29,18 @@ export class DatasetCardComponent implements OnInit {
     const data = d3.csvParse(this.dataset.csvContent);
 
     // Start an SVG element
-    let svgStart = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="${data.length * 20}">`;
+    let svgStart = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">`;
     let svgContent = '';
+
+    const baseX = 5; 
+    const baseY = 10; 
+    const lineHeight = 10; 
+    const fontSize = 5; 
 
     // Loop over each row of data and add a text element for each
     data.forEach((row, index) => {
-      svgContent += `<text x="10" y="${20 + index * 20}" font-family="Verdana" font-size="15" fill="black">${JSON.stringify(row)}</text>`;
+      const yPosition = baseY + index * lineHeight;
+      svgContent += `<text x="${baseX}" y="${yPosition}" font-family="Verdana" font-size="${fontSize}" fill="black">${JSON.stringify(row)}</text>`;
     });
 
     // Close the SVG tag
