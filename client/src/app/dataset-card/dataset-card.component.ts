@@ -3,7 +3,6 @@ import { ToastrService } from 'ngx-toastr';
 import { DatasetService } from '../_services/dataset.service';
 import { Dataset } from '../_models/dataset';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as d3 from 'd3';
 
 @Component({
   selector: 'app-dataset-card',

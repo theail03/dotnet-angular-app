@@ -5,6 +5,7 @@ import { Dataset } from 'src/app/_models/dataset';
 import { DatasetService } from 'src/app/_services/dataset.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-dataset',
@@ -25,6 +26,8 @@ export class DatasetComponent implements OnInit {
     csvContent: '',
     isPublic: false
   };
+  csvRows: any[] = [];
+  csvHeaders: string[] = [];
 
   constructor(private route: ActivatedRoute, private datasetService: DatasetService, private toastr: ToastrService, private router: Router) { 
   }
@@ -36,6 +39,16 @@ export class DatasetComponent implements OnInit {
       this.route.data.subscribe(data => {
         this.dataset = data['dataset'];
       }); 
+    }
+    this.parseCsvContent();
+  }
+
+  parseCsvContent(): void {
+    const parsedCsv = d3.csvParse(this.dataset.csvContent);
+    this.csvRows = parsedCsv;
+  
+    if (parsedCsv.length > 0) {
+      this.csvHeaders = Object.keys(parsedCsv[0]);
     }
   }
 

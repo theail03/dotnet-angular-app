@@ -36,28 +36,13 @@
                 <table class="table table-hover" style="cursor: pointer;">
                     <thead>
                         <tr>
-                            <th>Column 1</th>
-                            <th>Column 2</th>
-                            <th>Column 3</th>
-                            <!-- Add more <th> elements as necessary -->
+                            <th *ngFor="let header of csvHeaders">{{ header }}</th>
                         </tr>
                     </thead>
                     <tbody class="align-middle">
-                        <!-- Dummy data row 1, representing the first row of CSV content -->
-                        <tr>
-                            <td>Data 1-1</td>
-                            <td>Data 1-2</td>
-                            <td>Data 1-3</td>
-                            <!-- Add more <td> elements as necessary -->
+                        <tr *ngFor="let row of csvRows">
+                            <td *ngFor="let key of csvHeaders">{{ row[key] }}</td>
                         </tr>
-                        <!-- Dummy data row 2, representing the second row of CSV content -->
-                        <tr>
-                            <td>Data 2-1</td>
-                            <td>Data 2-2</td>
-                            <td>Data 2-3</td>
-                            <!-- Add more <td> elements as necessary -->
-                        </tr>
-                        <!-- Add more rows as necessary to represent additional CSV data -->
                     </tbody>
                 </table>
             </tab>
