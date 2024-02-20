@@ -56,8 +56,8 @@ export class DatasetCardComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl(dataUrl);
   }
 
-  addLike(dataset: Dataset) {
-    alert('Like button clicked');
+  deleteDataset(dataset: Dataset) {
+    alert('Delete button clicked');
   }
 
 }
