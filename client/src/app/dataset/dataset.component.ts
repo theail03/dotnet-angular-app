@@ -57,6 +57,8 @@ export class DatasetComponent implements OnInit {
   
     if (parsedCsv.length > 0) {
       this.csvHeaders = Object.keys(parsedCsv[0]);
+    } else {
+      this.csvHeaders = [];
     }
   }
 
