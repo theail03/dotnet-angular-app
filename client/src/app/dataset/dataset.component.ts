@@ -28,6 +28,7 @@ export class DatasetComponent implements OnInit {
   };
   csvRows: any[] = [];
   csvHeaders: string[] = [];
+  mode: string = 'create';
 
   constructor(private route: ActivatedRoute, private datasetService: DatasetService, private toastr: ToastrService, private router: Router) { 
   }
@@ -38,8 +39,10 @@ export class DatasetComponent implements OnInit {
       const mode = this.route.snapshot.data['mode'];
       if (mode === 'view') {
         this.title = 'View Dataset';
+        this.mode = 'view';
       } else {
         this.title = 'Edit Dataset';
+        this.mode = 'edit';
       }
       this.route.data.subscribe(data => {
         this.dataset = data['dataset'];

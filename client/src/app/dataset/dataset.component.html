@@ -2,36 +2,56 @@
     <div class="col-4">
         <h1>{{ title }}</h1>
     </div>
-    <div class="col-8">
-        <div class="alert alert-info pb-0" *ngIf="editForm.dirty">
-            <p><strong>Information: </strong>You have made changes.  Any unsaved changes will be lost</p>
+    <div class="col-8" *ngIf="mode !== 'view'">
+        <div class="alert alert-info pb-0" *ngIf="editForm?.dirty">
+            <p><strong>Information:</strong> You have made changes. Any unsaved changes will be lost.</p>
         </div>
     </div>
 
     <div class="col-12">
         <tabset class="member-tabset">
             <tab heading="Details">
-                <form #editForm="ngForm" id="editForm" (ngSubmit)="saveDataset()">
-                    <h4 class="mt-2">Title</h4>
-                    <input class="form-control" 
-                        [(ngModel)]="dataset.title" 
-                        name="title"
-                        rows="1"
-                    >
-                    <h4 class="mt-2">Description</h4>
-                    <textarea class="form-control" 
-                        [(ngModel)]="dataset.description" 
-                        name="description"
-                        rows="3"
-                    ></textarea>
-                    <h4 class="mt-2">CSV Content</h4>
-                    <textarea class="form-control" 
-                        [(ngModel)]="dataset.csvContent" 
-                        (ngModelChange)="parseCsvContent()"
-                        name="csvContent"
-                        rows="10"
-                    ></textarea>
-                </form>
+                <div *ngIf="mode !== 'view'; else viewMode">
+                    <form #editForm="ngForm" id="editForm" (ngSubmit)="saveDataset()">
+                        <h4 class="mt-2">Title</h4>
+                        <input class="form-control" 
+                            [(ngModel)]="dataset.title" 
+                            name="title"
+                            rows="1" 
+                            *ngIf="mode !== 'view'; else viewTitle"
+                        >
+                        <ng-template #viewTitle>{{ dataset.title }}</ng-template>
+
+                        <h4 class="mt-2">Description</h4>
+                        <textarea class="form-control" 
+                            [(ngModel)]="dataset.description" 
+                            name="description"
+                            rows="3"
+                            *ngIf="mode !== 'view'; else viewDescription"
+                        ></textarea>
+                        <ng-template #viewDescription>{{ dataset.description }}</ng-template>
+
+                        <h4 class="mt-2">CSV Content</h4>
+                        <textarea class="form-control" 
+                            [(ngModel)]="dataset.csvContent" 
+                            (ngModelChange)="parseCsvContent()"
+                            name="csvContent"
+                            rows="10"
+                            *ngIf="mode !== 'view'; else viewCsvContent"
+                        ></textarea>
+                        <ng-template #viewCsvContent><pre>{{ dataset.csvContent }}</pre></ng-template>
+                    </form>
+                </div>
+                <ng-template #viewMode>
+                    <div>
+                        <h4 class="mt-2">Title</h4>
+                        <p>{{ dataset.title }}</p>
+                        <h4 class="mt-2">Description</h4>
+                        <p>{{ dataset.description }}</p>
+                        <h4 class="mt-2">CSV Content</h4>
+                        <pre>{{ dataset.csvContent }}</pre>
+                    </div>
+                </ng-template>
             </tab>
             <tab heading="Preview">
                 <table class="table table-hover" style="cursor: pointer;">
@@ -49,8 +69,8 @@
             </tab>
         </tabset>
     </div>
-    <div class="card-footer col-2 offset-10">
-        <button type="submit" [disabled]="!editForm.dirty" 
+    <div class="card-footer col-2 offset-10" *ngIf="mode === 'edit'">
+        <button type="submit" [disabled]="!editForm?.dirty" 
             form="editForm" 
             class="btn btn-success col-12">Save changes</button>
     </div>
