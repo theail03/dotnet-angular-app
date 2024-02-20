@@ -6,6 +6,7 @@ import { DatasetService } from 'src/app/_services/dataset.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import * as d3 from 'd3';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
 
 @Component({
   selector: 'app-dataset',
@@ -14,6 +15,7 @@ import * as d3 from 'd3';
 })
 export class DatasetComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm | undefined;
+  @ViewChild('tabset') tabset!: TabsetComponent;
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event:any) {
     if (this.editForm?.dirty) {
       $event.returnValue = true;
@@ -49,6 +51,17 @@ export class DatasetComponent implements OnInit {
       }); 
     }
     this.parseCsvContent();
+  }
+
+  ngAfterViewInit(): void {
+    // Using setTimout to avoid "Expression has changed after it was checked" error
+    setTimeout(() => {
+      if (this.mode === 'view' && this.tabset.tabs) {
+        // The second tab is the "View" tab
+        const viewTabIndex = 1;
+        this.tabset.tabs[viewTabIndex].active = true;
+      }
+    });
   }
 
   parseCsvContent(): void {

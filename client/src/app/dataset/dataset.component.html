@@ -9,7 +9,7 @@
     </div>
 
     <div class="col-12">
-        <tabset class="tabset">
+        <tabset #tabset class="tabset">
             <tab heading="Details">
                 <form #editForm="ngForm" id="editForm" (ngSubmit)="saveDataset()">
                     <h4 class="mt-2">Title</h4>
@@ -41,7 +41,7 @@
                     <ng-template #viewCsvContent><pre>{{ dataset.csvContent }}</pre></ng-template>
                 </form>
             </tab>
-            <tab heading="Preview">
+            <tab heading="View">
                 <table class="table table-hover" style="cursor: pointer;">
                     <thead>
                         <tr>
