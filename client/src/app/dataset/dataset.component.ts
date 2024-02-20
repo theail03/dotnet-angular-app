@@ -35,7 +35,12 @@ export class DatasetComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.title = 'Edit Dataset';
+      const mode = this.route.snapshot.data['mode'];
+      if (mode === 'view') {
+        this.title = 'View Dataset';
+      } else {
+        this.title = 'Edit Dataset';
+      }
       this.route.data.subscribe(data => {
         this.dataset = data['dataset'];
       }); 

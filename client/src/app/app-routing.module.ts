@@ -33,6 +33,7 @@ const routes: Routes = [
       {path: 'datasets', component: DatasetsComponent},
       {path: 'dataset/create', component: DatasetComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'dataset/:id', component: DatasetComponent, resolve: {dataset: DatasetResolver}, canDeactivate: [PreventUnsavedChangesGuard]},
+      {path: 'dataset/:id/view', component: DatasetComponent, resolve: {dataset: DatasetResolver}, data: {mode: 'view'}},
     ]
   },
   {path: 'errors', component: TestErrorComponent},
