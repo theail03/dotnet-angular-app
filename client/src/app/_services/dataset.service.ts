@@ -77,4 +77,21 @@ export class DatasetService {
     )
   }
 
+  deleteDataset(id: number) {
+    return this.http.delete(this.baseUrl + 'dataset/' + id).pipe(
+      map(() => {
+        // Remove the dataset from the local cache if it's there
+        this.datasetCache.forEach((value, key) => {
+          if (value.result.find((dataset: Dataset) => dataset.id === id)) {
+            const updatedResult = value.result.filter((dataset: Dataset) => dataset.id !== id);
+            this.datasetCache.set(key, { ...value, result: updatedResult });
+          }
+        });
+  
+        // Also, remove the dataset from the datasets array
+        this.datasets = this.datasets.filter(dataset => dataset.id !== id);
+      })
+    );
+  }
+
 }

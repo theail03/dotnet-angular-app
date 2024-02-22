@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { DatasetService } from '../_services/dataset.service';
 import { Dataset } from '../_models/dataset';
@@ -12,6 +12,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class DatasetCardComponent implements OnInit {
   @Input() dataset: Dataset | undefined;
   @Input() predicate: string | undefined;
+  @Output() datasetDeleted = new EventEmitter<void>();
   svgImageUrl: any;
 
   constructor(private datasetService: DatasetService, private toastr: ToastrService, private sanitizer: DomSanitizer) { }
@@ -57,7 +58,22 @@ export class DatasetCardComponent implements OnInit {
   }
 
   deleteDataset(dataset: Dataset) {
-    alert('Delete button clicked');
+    if (!dataset.id) {
+      this.toastr.error('Dataset ID is missing');
+      return;
+    }
+  
+    if (confirm('Are you sure you want to delete this dataset?')) {
+      this.datasetService.deleteDataset(dataset.id).subscribe({
+        next: () => {
+          this.toastr.success('Dataset deleted successfully');
+          this.datasetDeleted.emit();
+        },
+        error: (error) => {
+          this.toastr.error('Failed to delete dataset');
+        }
+      });
+    }
   }
 
 }

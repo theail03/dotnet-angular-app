@@ -18,7 +18,7 @@
 
     <div class="row mt-3">
         <div class="col-2" *ngFor="let dataset of datasets">
-            <app-dataset-card [dataset]="dataset" [predicate]="predicate"></app-dataset-card>
+            <app-dataset-card [dataset]="dataset" (datasetDeleted)="loadDatasets()" [predicate]="predicate"></app-dataset-card>
         </div>
     </div>
 </div>
