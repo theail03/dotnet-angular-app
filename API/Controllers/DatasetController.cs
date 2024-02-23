@@ -42,7 +42,7 @@ namespace API.Controllers
 
             _mapper.Map(datasetDto, dataset);
 
-            if (await _uow.Complete()) return NoContent();
+            if (await _uow.Complete()) return Ok(_mapper.Map<DatasetDto>(dataset));
 
             return BadRequest("Failed to update dataset");
         }

@@ -11,9 +11,7 @@ import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 })
 export class DatasetService {
   baseUrl = environment.apiUrl;
-  datasets: Dataset[] = [];
   datasetCache = new Map();
-  dataset: Dataset | undefined;
   datasetParams = new DatasetParams();
 
   constructor(private http: HttpClient) {
@@ -61,20 +59,35 @@ export class DatasetService {
   createDataset(dataset: Dataset) {
     return this.http.post<Dataset>(this.baseUrl + 'dataset', dataset).pipe(
       map((newDataset) => {
-        this.datasets = [...this.datasets, newDataset];
+        // Update the cache if the new dataset matches the current filter params
+        const cacheKey = Object.values(this.datasetParams).join('-');
+        const currentCache = this.datasetCache.get(cacheKey);
+        if (currentCache) {
+          currentCache.result.unshift(newDataset); // Adds to the beginning of the array
+          this.datasetCache.set(cacheKey, currentCache);
+        }
         return newDataset;
       })
-    )
+    );
   }
 
   updateDataset(dataset: Dataset) {
-    return this.http.put(this.baseUrl + 'dataset', dataset).pipe(
-      map(() => {
-        const index = this.datasets.indexOf(dataset);
-        this.datasets[index] = { ...this.datasets[index], ...dataset }
-        return this.datasets[index];
+    return this.http.put<Dataset>(this.baseUrl + 'dataset', dataset).pipe(
+      map((updatedDataset) => {
+        // Generate the cache key based on the datasetParams
+        const cacheKey = Object.values(this.datasetParams).join('-');
+        const currentCache = this.datasetCache.get(cacheKey);
+  
+        if (currentCache) {
+          const index = currentCache.result.findIndex((dataset: Dataset) => dataset.id === updatedDataset.id);
+          if (index !== -1) {
+            currentCache.result[index] = updatedDataset;
+            this.datasetCache.set(cacheKey, currentCache);
+          }
+        }
+        return updatedDataset;
       })
-    )
+    );
   }
 
   deleteDataset(id: number) {
@@ -87,9 +100,6 @@ export class DatasetService {
             this.datasetCache.set(key, { ...value, result: updatedResult });
           }
         });
-  
-        // Also, remove the dataset from the datasets array
-        this.datasets = this.datasets.filter(dataset => dataset.id !== id);
       })
     );
   }
