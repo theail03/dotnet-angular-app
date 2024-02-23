@@ -59,13 +59,8 @@ export class DatasetService {
   createDataset(dataset: Dataset) {
     return this.http.post<Dataset>(this.baseUrl + 'dataset', dataset).pipe(
       map((newDataset) => {
-        // Update the cache if the new dataset matches the current filter params
-        const cacheKey = Object.values(this.datasetParams).join('-');
-        const currentCache = this.datasetCache.get(cacheKey);
-        if (currentCache) {
-          currentCache.result.unshift(newDataset); // Adds to the beginning of the array
-          this.datasetCache.set(cacheKey, currentCache);
-        }
+        // Invalidate the cache
+        this.datasetCache.clear();
         return newDataset;
       })
     );
@@ -74,17 +69,8 @@ export class DatasetService {
   updateDataset(dataset: Dataset) {
     return this.http.put<Dataset>(this.baseUrl + 'dataset', dataset).pipe(
       map((updatedDataset) => {
-        // Generate the cache key based on the datasetParams
-        const cacheKey = Object.values(this.datasetParams).join('-');
-        const currentCache = this.datasetCache.get(cacheKey);
-  
-        if (currentCache) {
-          const index = currentCache.result.findIndex((dataset: Dataset) => dataset.id === updatedDataset.id);
-          if (index !== -1) {
-            currentCache.result[index] = updatedDataset;
-            this.datasetCache.set(cacheKey, currentCache);
-          }
-        }
+        // Invalidate the cache
+        this.datasetCache.clear();
         return updatedDataset;
       })
     );
@@ -93,13 +79,8 @@ export class DatasetService {
   deleteDataset(id: number) {
     return this.http.delete(this.baseUrl + 'dataset/' + id).pipe(
       map(() => {
-        // Remove the dataset from the local cache if it's there
-        this.datasetCache.forEach((value, key) => {
-          if (value.result.find((dataset: Dataset) => dataset.id === id)) {
-            const updatedResult = value.result.filter((dataset: Dataset) => dataset.id !== id);
-            this.datasetCache.set(key, { ...value, result: updatedResult });
-          }
-        });
+        // Invalidate the cache
+        this.datasetCache.clear();
       })
     );
   }

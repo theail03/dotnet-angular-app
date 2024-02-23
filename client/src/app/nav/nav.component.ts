@@ -79,7 +79,7 @@ export class NavComponent implements OnInit {
   }
 
   logout() {
-    this.datasetService.datasetCache = new Map();
+    this.datasetService.datasetCache.clear();
     this.accountService.logout();
     this.router.navigateByUrl('/');
   }
