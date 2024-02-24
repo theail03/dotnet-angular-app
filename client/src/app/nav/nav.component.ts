@@ -70,14 +70,6 @@ export class NavComponent implements OnInit {
     });
   }  
 
-  login() {
-    this.accountService.login(this.model).subscribe({
-      next: _ => {
-        this.handleLoginSuccess();
-      }
-    })
-  }
-
   logout() {
     this.datasetService.datasetCache.clear();
     this.accountService.logout();

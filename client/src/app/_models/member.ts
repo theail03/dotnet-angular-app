@@ -1,19 +1,9 @@
-import { Photo } from "./photo";
-
 export interface Member {
     id: number;
     googleId: string;
     userName: string;
     photoUrl: string;
-    age: number;
-    knownAs: string;
+    name: string;
     created: Date;
     lastActive: Date;
-    gender: string;
-    introduction: string;
-    lookingFor: string;
-    interests: string;
-    city: string;
-    country: string;
-    photos: Photo[];
 }
