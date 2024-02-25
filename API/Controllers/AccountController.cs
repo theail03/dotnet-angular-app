@@ -85,13 +85,12 @@ namespace API.Controllers
             }
 
             // Generate token
-            return new UserDto
-            {
-                Username = user.UserName,
-                Token = await _tokenService.CreateToken(user),
-                PhotoUrl = user.PhotoUrl,
-                Name = user.Name,
-            };
+            var token = await _tokenService.CreateToken(user);
+
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Token = token;
+
+            return userDto;
         }
 
         private async Task<bool> UserExists(string username)
