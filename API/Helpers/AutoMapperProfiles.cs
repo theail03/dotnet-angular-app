@@ -9,7 +9,7 @@ namespace API.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<AppUser, MemberDto>();
+            CreateMap<AppUser, UserDto>();
             CreateMap<Dataset, DatasetDto>();
             CreateMap<DatasetDto, Dataset>();
             CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
