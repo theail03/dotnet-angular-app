@@ -37,21 +37,23 @@ export class DatasetComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    const mode = this.route.snapshot.data['mode'];
     if (id) {
-      const mode = this.route.snapshot.data['mode'];
       if (mode === 'view') {
         this.title = 'View Dataset';
         this.mode = 'view';
       } else if (mode === 'edit') {
         this.title = 'Edit Dataset';
         this.mode = 'edit';
-      } else if (mode === 'viewCsv') {
-        this.title = 'View CSV';
-        this.mode = 'viewCsv';
       }
       this.route.data.subscribe(data => {
         this.dataset = data['dataset'];
       }); 
+    } else {
+      if (mode === 'viewCsv') {
+        this.title = 'View CSV';
+        this.mode = 'viewCsv';
+      }
     }
     this.parseCsvContent();
   }
