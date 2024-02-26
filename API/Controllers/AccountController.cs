@@ -1,6 +1,3 @@
-using System.Security.Cryptography;
-using System.Text;
-using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
@@ -24,32 +21,6 @@ namespace API.Controllers
             _mapper = mapper;
             _tokenService = tokenService;
             _googleClientId = config["ApplicationSettings:GoogleClientId"];
-        }
-
-        [HttpPost("register")] // POST: api/account/register?username=dave&password=pwd
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
-        {
-            if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
-
-            var user = _mapper.Map<AppUser>(registerDto);
-
-            user.UserName = registerDto.Username.ToLower();
-
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
-
-            if (!result.Succeeded) return BadRequest(result.Errors);
-
-            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
-
-            if (!roleResult.Succeeded) return BadRequest(result.Errors);
-
-            return new UserDto
-            {
-                Username = user.UserName,
-                Token = await _tokenService.CreateToken(user),
-                KnownAs = user.KnownAs,
-                Gender = user.Gender
-            };
         }
 
         [HttpPost("loginWithGoogle")]
@@ -86,7 +57,8 @@ namespace API.Controllers
             // Set properties from payload whether it's a new user or an existing one
             user.UserName = payload.Email;
             user.Email = payload.Email;
-            user.KnownAs = payload.GivenName;
+            user.Name = payload.Name;
+            user.PhotoUrl = payload.Picture;
 
             if (isNewUser)
             {
@@ -114,37 +86,12 @@ namespace API.Controllers
             }
 
             // Generate token
-            return new UserDto
-            {
-                Username = user.UserName,
-                Token = await _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                KnownAs = user.KnownAs,
-                Gender = user.Gender
-            };
-        }
+            var token = await _tokenService.CreateToken(user);
 
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
-        {
-            var user = await _userManager.Users
-                .Include(p => p.Photos)
-                .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Token = token;
 
-            if (user == null) return Unauthorized("invalid username");
-
-            var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
-
-            if (!result) return Unauthorized("Invalid password");
-
-            return new UserDto
-            {
-                Username = user.UserName,
-                Token = await _tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                KnownAs = user.KnownAs,
-                Gender = user.Gender
-            };
+            return userDto;
         }
 
         private async Task<bool> UserExists(string username)
