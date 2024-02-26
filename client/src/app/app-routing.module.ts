@@ -19,7 +19,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
-      {path: 'errors', component: TestErrorComponent},
+      {path: 'errors', component: TestErrorComponent, canActivate: [AdminGuard]},
       {path: 'datasets', component: DatasetsComponent},
       {path: 'dataset/create', component: DatasetComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'dataset/:id', component: DatasetComponent, resolve: {dataset: DatasetResolver}, canDeactivate: [PreventUnsavedChangesGuard]},
