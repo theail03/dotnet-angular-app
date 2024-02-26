@@ -30,6 +30,15 @@ namespace API.Data
                 .WithOne(u => u.Role)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
+
+            builder.Entity<Dataset>(entity =>
+            {
+                entity.HasOne(d => d.AppUser)
+                    .WithMany(u => u.Datasets)
+                    .HasForeignKey(d => d.AppUserId)
+                    .IsRequired(false) // Make the FK nullable
+                    .OnDelete(DeleteBehavior.Cascade); // Retain cascade delete behavior
+            });
         }
     }
 }

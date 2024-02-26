@@ -13,5 +13,6 @@ namespace API.Entities
         public string PhotoUrl { get; set; }
 
         public ICollection<AppUserRole> UserRoles { get; set; }
+        public virtual ICollection<Dataset> Datasets { get; set; }
     }
 }

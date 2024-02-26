@@ -7,7 +7,7 @@
         public string Description { get; set; }
         public string CsvContent { get; set; }
         public bool IsPublic { get; set; }
-        public int AppUserId { get; set; }
+        public int? AppUserId { get; set; }
         public AppUser AppUser { get; set; }
     }
 }
