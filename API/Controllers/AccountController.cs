@@ -58,6 +58,7 @@ namespace API.Controllers
             user.UserName = payload.Email;
             user.Email = payload.Email;
             user.Name = payload.Name;
+            user.PhotoUrl = payload.Picture;
 
             if (isNewUser)
             {
