@@ -7,16 +7,18 @@
                 <a class="nav-link" routerLink="/datasets" routerLinkActive="active">Datasets</a>
             </li>
             <ng-container *ngIf="accountService.currentUser$  | async">
-                <li *appHasRole="['Admin']" class="nav-item">
-                    <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/dataset/create" routerLinkActive="active">Add Dataset</a>
                 </li>
+                <ng-container *appHasRole="['Admin']">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/errors" routerLinkActive="active">Errors</a>
+                    </li>
+                </ng-container>
             </ng-container>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/errors" routerLinkActive="active">Errors</a>
-            </li>
         </ul>
 
         <div class="dropdown" *ngIf="(accountService.currentUser$  | async) as user" dropdown>
