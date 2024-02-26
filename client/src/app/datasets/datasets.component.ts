@@ -13,7 +13,7 @@ export class DatasetsComponent implements OnInit {
   datasets: Dataset[] | undefined;
   predicate = 'public';
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 6;
   pagination: Pagination | undefined;
 
   constructor(private datasetService: DatasetService) { }
