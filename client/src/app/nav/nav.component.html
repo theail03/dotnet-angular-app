@@ -34,7 +34,7 @@
 
             <!-- User dropdown and sign-in button -->
             <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-                <img src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
+                <img src="{{user.photoUrl || './assets/user.png'}}" referrerpolicy="no-referrer" alt="user photo">
                 <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{user.name}}</a>
                 <div class="dropdown-menu mt-3" *dropdownMenu>
                     <a class="dropdown-item" (click)="logout()">Logout</a>
