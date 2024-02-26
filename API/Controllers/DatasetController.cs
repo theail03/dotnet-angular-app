@@ -64,7 +64,11 @@ namespace API.Controllers
         public async Task<ActionResult<PagedList<DatasetDto>>> GetDatasets([FromQuery]
             DatasetParams datasetParams)
         {
-            datasetParams.UserId = User.GetUserId();
+            // Only try to get the UserId if the user is authenticated
+            if (User.Identity.IsAuthenticated)
+            {
+                datasetParams.UserId = User.GetUserId();
+            }
 
             var datasets = await _uow.DatasetRepository.GetDatasets(datasetParams);
 
