@@ -25,6 +25,7 @@ import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.c
 import { DatasetComponent } from './dataset/dataset.component';
 import { DatasetsComponent } from './datasets/datasets.component';
 import { DatasetCardComponent } from './dataset-card/dataset-card.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { DatasetCardComponent } from './dataset-card/dataset-card.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    CollapseModule.forRoot(),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

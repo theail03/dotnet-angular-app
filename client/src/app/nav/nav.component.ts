@@ -13,6 +13,7 @@ import { DatasetService } from '../_services/dataset.service';
 })
 export class NavComponent implements OnInit {
   model: any = {};
+  isCollapsed = true;
 
   constructor(private _ngZone: NgZone, public accountService: AccountService, public datasetService: DatasetService, private router: Router, 
     private toastr: ToastrService) { }
