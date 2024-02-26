@@ -12,23 +12,25 @@
         <tabset #tabset class="tabset">
             <tab heading="Details">
                 <form #editForm="ngForm" id="editForm" (ngSubmit)="saveDataset()">
-                    <h4 class="mt-2">Title</h4>
-                    <input class="form-control" 
-                        [(ngModel)]="dataset.title" 
-                        name="title"
-                        rows="1" 
-                        *ngIf="mode !== 'view'; else viewTitle"
-                    >
-                    <ng-template #viewTitle>{{ dataset.title }}</ng-template>
+                    <ng-container *ngIf="mode !== 'viewCsv'">
+                        <h4 class="mt-2">Title</h4>
+                        <input class="form-control" 
+                            [(ngModel)]="dataset.title" 
+                            name="title"
+                            rows="1" 
+                            *ngIf="mode !== 'view'; else viewTitle"
+                        >
+                        <ng-template #viewTitle>{{ dataset.title }}</ng-template>
 
-                    <h4 class="mt-2">Description</h4>
-                    <textarea class="form-control" 
-                        [(ngModel)]="dataset.description" 
-                        name="description"
-                        rows="3"
-                        *ngIf="mode !== 'view'; else viewDescription"
-                    ></textarea>
-                    <ng-template #viewDescription>{{ dataset.description }}</ng-template>
+                        <h4 class="mt-2">Description</h4>
+                        <textarea class="form-control" 
+                            [(ngModel)]="dataset.description" 
+                            name="description"
+                            rows="3"
+                            *ngIf="mode !== 'view'; else viewDescription"
+                        ></textarea>
+                        <ng-template #viewDescription>{{ dataset.description }}</ng-template>
+                    </ng-container>
 
                     <h4 class="mt-2">CSV Content</h4>
                     <textarea class="form-control" 
@@ -57,7 +59,7 @@
             </tab>
         </tabset>
     </div>
-    <div class="card-footer col-2 offset-10" *ngIf="mode !== 'view'">
+    <div class="card-footer col-2 offset-10" *ngIf="![ 'view', 'viewCsv' ].includes(mode)">
         <button type="submit" [disabled]="!editForm?.dirty" 
             form="editForm" 
             class="btn btn-success col-12">Save changes</button>

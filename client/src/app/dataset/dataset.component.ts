@@ -42,9 +42,12 @@ export class DatasetComponent implements OnInit {
       if (mode === 'view') {
         this.title = 'View Dataset';
         this.mode = 'view';
-      } else {
+      } else if (mode === 'edit') {
         this.title = 'Edit Dataset';
         this.mode = 'edit';
+      } else if (mode === 'viewCsv') {
+        this.title = 'View CSV';
+        this.mode = 'viewCsv';
       }
       this.route.data.subscribe(data => {
         this.dataset = data['dataset'];
