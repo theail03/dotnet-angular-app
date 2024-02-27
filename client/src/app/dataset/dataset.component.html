@@ -22,14 +22,16 @@
                         >
                         <ng-template #viewTitle>{{ dataset.title }}</ng-template>
 
-                        <h4 class="mt-2">Description</h4>
-                        <textarea class="form-control" 
-                            [(ngModel)]="dataset.description" 
-                            name="description"
-                            rows="3"
-                            *ngIf="mode !== 'view'; else viewDescription"
-                        ></textarea>
-                        <ng-template #viewDescription>{{ dataset.description }}</ng-template>
+                        <ng-container *ngIf="dataset.description || mode !== 'view'">
+                            <h4 class="mt-2">Description</h4>
+                            <textarea class="form-control" 
+                                [(ngModel)]="dataset.description" 
+                                name="description"
+                                rows="3"
+                                *ngIf="mode !== 'view'; else viewDescription"
+                            ></textarea>
+                            <ng-template #viewDescription>{{ dataset.description }}</ng-template>
+                        </ng-container>
                     </ng-container>
 
                     <h4 class="mt-2">CSV Content</h4>
