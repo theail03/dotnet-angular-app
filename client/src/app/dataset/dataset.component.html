@@ -59,7 +59,7 @@
             </tab>
         </tabset>
     </div>
-    <div class="card-footer col-2 offset-10" *ngIf="![ 'view', 'viewCsv' ].includes(mode)">
+    <div class="card-footer col-12 col-md-2 offset-md-10" *ngIf="![ 'view', 'viewCsv' ].includes(mode)">
         <button type="submit" [disabled]="!editForm?.dirty" 
             form="editForm" 
             class="btn btn-success col-12">Save changes</button>
