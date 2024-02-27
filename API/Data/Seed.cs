@@ -27,7 +27,7 @@ namespace API.Data
         {
             if (await context.Datasets.AnyAsync()) return;
 
-            string jsonData = await File.ReadAllTextAsync("DatasetSeedData.json");
+            string jsonData = await File.ReadAllTextAsync("Data/DatasetSeedData.json");
             var datasetList = JsonSerializer.Deserialize<List<Dataset>>(jsonData);
 
             // Add range of datasets to context
