@@ -64,7 +64,9 @@ var services = scope.ServiceProvider;
 try
 {
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+    var context = services.GetRequiredService<DataContext>();
     await Seed.SeedRoles(roleManager);
+    await Seed.SeedDatasets(context);
 }
 catch (Exception ex)
 {

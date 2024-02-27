@@ -1,0 +1,62 @@
+[
+    {
+        "Title": "Global Climate Data",
+        "Description": "A comprehensive dataset capturing various climate indicators across multiple countries over several decades.",
+        "CsvContent": "Year,Temperature,CO2,Emissions\n2000,0.24,300,15\n2001,0.26,305,16\n...",
+        "IsPublic": true
+    },
+    {
+        "Title": "World Population Statistics",
+        "Description": "Detailed statistics of world population growth, density, and demographics from 1950 to 2020.",
+        "CsvContent": "Year,Population,Population Growth,Area\n1950,2.5,1.1,100\n1951,2.6,1.2,100\n...",
+        "IsPublic": true
+    },
+    {
+        "Title": "Global Internet Usage Trends",
+        "Description": "Trends and patterns in global internet usage, including data on internet penetration and bandwidth usage.",
+        "CsvContent": "Year,Users,Usage Hours,Data Traffic\n2005,1.0,8,20\n2006,1.1,10,25\n...",
+        "IsPublic": true
+    },
+    {
+        "Title": "International Trade Volumes",
+        "Description": "Data on international trade volumes and values between countries, detailing import and export figures.",
+        "CsvContent": "Year,Country,Imports,Exports\n2010,USA,500,450\n2011,USA,510,460\n...",
+        "IsPublic": true
+    },
+    {
+        "Title": "Urban Air Quality Records",
+        "Description": "A dataset on urban air quality, measuring pollutants and particulates in major cities worldwide.",
+        "CsvContent": "Year,City,PM2.5,PM10,O3\n2012,Beijing,75,150,35\n2013,Beijing,73,145,37\n...",
+        "IsPublic": true
+    },
+    {
+        "Title": "National Health Indicators",
+        "Description": "Key health indicators by country, including life expectancy, mortality rates, and disease prevalence.",
+        "CsvContent": "Year,Country,Life Expectancy,Mortality,Obesity Rate\n2000,Finland,79,0.7,21\n2001,Finland,79.2,0.69,21.5\n...",
+        "IsPublic": true
+    },
+    {
+        "Title": "Global Education Rankings",
+        "Description": "Rankings of countries based on various education metrics such as literacy rates, graduation rates, and government spending.",
+        "CsvContent": "Year,Country,Literacy Rate,Graduation Rate,Spending\n2015,Japan,99,98,5.0\n2016,Japan,99.1,98.1,5.1\n...",
+        "IsPublic": true
+    },
+    {
+        "Title": "Economic Growth and Inflation",
+        "Description": "A collection of economic growth rates and inflation rates for different countries, showing economic trends.",
+        "CsvContent": "Year,Country,GDP Growth,Inflation\n2008,Germany,1.3,0.3\n2009,Germany,-5.6,0.2\n...",
+        "IsPublic": true
+    },
+    {
+        "Title": "Renewable Energy Usage Stats",
+        "Description": "Statistics on the production and consumption of renewable energy sources like wind, solar, and hydro.",
+        "CsvContent": "Year,Type,Production,Consumption\n2017,Wind,200,180\n2018,Solar,220,200\n...",
+        "IsPublic": true
+    },
+    {
+        "Title": "Automotive Industry Trends",
+        "Description": "Data on automotive industry trends including vehicle sales, market share, and electric vehicle adoption.",
+        "CsvContent": "Year,Total Sales,Electric Vehicle Sales,Market Share\n2014,15.5,0.2,10\n2015,16.5,0.3,11\n...",
+        "IsPublic": true
+    }
+]

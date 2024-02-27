@@ -1,3 +1,4 @@
+using System.Text.Json;
 using API.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,19 @@ namespace API.Data
             {
                 await roleManager.CreateAsync(role);
             }
+        }
+
+        public static async Task SeedDatasets(DataContext context)
+        {
+            if (await context.Datasets.AnyAsync()) return;
+
+            string jsonData = await File.ReadAllTextAsync("DatasetSeedData.json");
+            var datasetList = JsonSerializer.Deserialize<List<Dataset>>(jsonData);
+
+            // Add range of datasets to context
+            await context.Datasets.AddRangeAsync(datasetList);
+
+            await context.SaveChangesAsync();
         }
     }
 }
