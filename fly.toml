@@ -11,9 +11,10 @@ primary_region = 'mia'
 
 [env]
   ASPNETCORE_URLS="http://+:8080"
-  CloudinarySettings__CloudName="dj3wmuy3l"
-  CloudinarySettings__ApiKey="895484589483755"
+  CloudinarySettings__CloudName="dgrukzqp4"
+  CloudinarySettings__ApiKey="373646426761987"
   RunMigrations="false"
+  ApplicationSettings__GoogleClientId="485540724594-jc4vkd4c13m3qndn4kbnbtkgt13rak6m.apps.googleusercontent.com"
 
 [http_service]
   internal_port = 8080
