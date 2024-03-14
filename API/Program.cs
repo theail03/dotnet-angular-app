@@ -63,10 +63,14 @@ using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try
 {
-    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
-    var context = services.GetRequiredService<DataContext>();
-    await Seed.SeedRoles(roleManager);
-    await Seed.SeedDatasets(context);
+    var runMigrations = Environment.GetEnvironmentVariable("RunMigrations");
+    if (!string.IsNullOrEmpty(runMigrations) && bool.Parse(runMigrations)) {
+        var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+        var context = services.GetRequiredService<DataContext>();
+        await context.Database.MigrateAsync();
+        await Seed.SeedRoles(roleManager);
+        await Seed.SeedDatasets(context);
+    }
 }
 catch (Exception ex)
 {
