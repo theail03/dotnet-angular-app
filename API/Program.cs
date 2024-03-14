@@ -63,8 +63,8 @@ using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try
 {
-    var runMigrations = Environment.GetEnvironmentVariable("RunMigrations");
-    if (!string.IsNullOrEmpty(runMigrations) && bool.Parse(runMigrations)) {
+    var runMigrations = builder.Configuration.GetValue<bool>("RunMigrations");
+    if (runMigrations) {
         var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
         var context = services.GetRequiredService<DataContext>();
         await context.Database.MigrateAsync();
