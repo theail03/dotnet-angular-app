@@ -3,7 +3,9 @@ using API.Entities;
 using API.Extensions;
 using API.Middleware;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,30 +15,37 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
-var connString = "";
+var connectionString = "";
 if (builder.Environment.IsDevelopment())
-    connString = builder.Configuration.GetConnectionString("DefaultConnection");
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 else
 {
-    // Use connection string provided at runtime by FlyIO.
-    var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    // Use connection string provided at runtime by Fly.IO.
+    var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
     // Parse connection URL to connection string for Npgsql
-    connUrl = connUrl.Replace("postgres://", string.Empty);
-    var pgUserPass = connUrl.Split("@")[0];
-    var pgHostPortDb = connUrl.Split("@")[1];
-    var pgHostPort = pgHostPortDb.Split("/")[0];
-    var pgDb = pgHostPortDb.Split("/")[1];
-    var pgUser = pgUserPass.Split(":")[0];
-    var pgPass = pgUserPass.Split(":")[1];
-    var pgHost = pgHostPort.Split(":")[0];
-    var pgPort = pgHostPort.Split(":")[1];
+    Uri uri = new Uri(databaseUrl);
+    string host = uri.Host;
+    string port = uri.Port.ToString();
+    string database = uri.AbsolutePath.Trim('/');
+    string userId = uri.UserInfo.Split(':')[0];
+    string password = uri.UserInfo.Split(':')[1];
+    string sslMode = "Disable"; // Default to Disable unless specified in the query params
 
-    connString = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
+    // Extract any parameters from the query string (e.g., sslmode)
+    var query = QueryHelpers.ParseQuery(uri.Query);
+
+    StringValues sslModeValue;
+    if (query.TryGetValue("sslmode", out sslModeValue))
+    {
+        sslMode = sslModeValue.ToString();
+    }
+
+    connectionString = $"Server={host};Port={port};User Id={userId};Password={password};Database={database};SslMode={sslMode};";
 }
 builder.Services.AddDbContext<DataContext>(opt =>
 {
-    opt.UseNpgsql(connString);
+    opt.UseNpgsql(connectionString);
 });
 
 var app = builder.Build();
